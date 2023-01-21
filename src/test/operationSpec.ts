@@ -1,7 +1,6 @@
-import Supertest from "supertest";
 import { cachedimgdir } from "../router/router";
 import fs from "fs";
-import resizes from "../router/operatins";
+import {resizes} from "../router/operatins";
 describe("Testing Functions Resizing", () => {
   it("Test image  720*720", async () => {
     if (fs.existsSync(`${cachedimgdir}/task_720_720.jpg`)) {

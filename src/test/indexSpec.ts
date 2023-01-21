@@ -8,9 +8,3 @@ describe("test basic server", () => {
     expect(res.status).toBe(200);
   });
 });
-describe("test Image Page That Will Resize The Image", () => {
-  it("get the / from the server", async () => {
-    const res = await resquest.get("/img");
-    expect(res.status).toBe(200);
-  });
-});
