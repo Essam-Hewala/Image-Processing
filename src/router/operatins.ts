@@ -1,7 +1,11 @@
 import sharp from "sharp";
 import { cachedimgdir, imgdir } from "./router";
 import joi from "joi";
-async function resizes(width: number,height: number,image: string): Promise<string> {
+async function resizes(
+  width: number,
+  height: number,
+  image: string
+): Promise<string> {
   await sharp(`${imgdir}/${image}.jpg`)
     .resize(width, height)
     .jpeg({ mozjpeg: true })
@@ -12,7 +16,8 @@ function validatedata(data: string) {
   const testdata = joi.object({
     name: joi.string().required(),
     width: joi.number().required(),
-    height: joi.number().required()});
+    height: joi.number().required(),
+  });
   const reason = {
     errors: {
       wrap: {
@@ -20,6 +25,6 @@ function validatedata(data: string) {
       },
     },
   };
-return testdata.validate(data, reason);
+  return testdata.validate(data, reason);
 }
-export  {resizes,validatedata};
+export { resizes, validatedata };

@@ -1,7 +1,7 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import fs from "fs";
 import { cachedimgdir } from "./router/router";
-import  {resizes, validatedata } from "./router/operatins";
+import { resizes, validatedata } from "./router/operatins";
 const port = 3000;
 const app: Application = express();
 // main page
@@ -12,19 +12,27 @@ app.get("/", (req, res) => {
 });
 app.use(express.static(cachedimgdir));
 // resizing page
-app.get("/img", (req, res) => {
+app.get("/img", (req: Request, res: Response) => {
   const resize = {
     name: req.query.name as string,
     width: parseInt(req.query.width as string),
     height: parseInt(req.query.height as string),
   };
-  const { error } = validatedata(req.query as unknown as  string);
+  const { error } = validatedata(req.query as unknown as string);
   if (error) {
-    return res.send(`<h3>Missing Data Please Make Sure To Fill All Data (Name,Width,Height)</h3>`);
+    return res.send(error.details[0].message);
+    // return res.senderror(`<h3>Missing Data Please Make Sure To Fill All Data (Name,Width,Height)</h3>`);
   }
-  if (fs.existsSync(`${cachedimgdir}/${resize.name}_${resize.width}_${resize.height}.jpg`)) /* check if the image resized*/  {
-    res.status(200);
-    res.send("Image Have Been Resized before This Is The Cached One :" +`<img src="${resize.name}_${resize.width}_${resize.height}.jpg">`);
+  if (
+    fs.existsSync(
+      `${cachedimgdir}/${resize.name}_${resize.width}_${resize.height}.jpg`
+    )
+  ) {
+    /* check if the image resized*/ res.status(200);
+    res.send(
+      "Image Have Been Resized before This Is The Cached One :" +
+        `<img src="${resize.name}_${resize.width}_${resize.height}.jpg">`
+    );
   } else {
     resizes(resize.width, resize.height, resize.name).then((next) => {
       res.send("Resized New Image :" + `<img src="${next}">`);
