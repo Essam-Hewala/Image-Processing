@@ -6,7 +6,7 @@ Dependencies used:
 3. Joi: to validate inputs
 4. Jasmine: for unit testing
 
-This application is capable of resizing images from images/original folder, and cache It to images/cached.
+This application is capable of resizing images from images/real folder, and cache It to images/resize.
 
 Application scripts:
 "npm build": will build  to .js format.
